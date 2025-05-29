@@ -1,0 +1,65 @@
+🥇 ТОП-5 самых быстрых зеркал:
+
+GigeNET - до 1.73 MB/s, очень стабильный apt - How do you select the fastest mirror from the command line? - Ask Ubuntu
+
+http://mirrors.gigenet.com/ubuntuarchive/
+
+
+xTom - 20 Gbps пропускная способность How to Find Best Ubuntu APT Repository Mirror - LetsCloud Community
+
+https://mirrors.xtom.com/ubuntu/
+
+
+Evowise LA - 10 Gbps, низкая задержка 40ms How to Find Best Ubuntu APT Repository Mirror - LetsCloud Community
+
+http://la-mirrors.evowise.com/ubuntu/
+
+
+UC Berkeley - университетское зеркало, надежное
+
+https://mirrors.ocf.berkeley.edu/ubuntu/
+
+
+University of Maryland - академическое зеркало
+
+https://mirror.umd.edu/ubuntu/
+
+
+
+🚀 Быстрая настройка:
+bash# Скачайте и запустите мой скрипт
+wget -O setup_us_mirror.sh https://gist.githubusercontent.com/[ваш-gist]/setup_us_mirror.sh
+chmod +x setup_us_mirror.sh
+sudo ./setup_us_mirror.sh
+⚡ Ручная настройка (самое быстрое - GigeNET):
+bash# Резервная копия
+sudo cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.backup
+
+# Новый конфиг с GigeNET
+sudo tee /etc/apt/sources.list.d/ubuntu.sources > /dev/null << 'EOF'
+Types: deb
+URIs: http://mirrors.gigenet.com/ubuntuarchive/
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://security.ubuntu.com/ubuntu
+Suites: noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+EOF
+
+# Обновление
+sudo apt update
+🎯 Автоматический выбор лучшего зеркала:
+bash# Установить apt-select
+pip3 install apt-select
+
+# Найти лучший US зеркал
+apt-select --country US -t 3
+
+# Применить автоматически
+apt-select --country US -t 1 -a
+Рекомендация: Начните с GigeNET - он показывает лучшие результаты по стабильности и скорости. Если не подойдет, попробуйте xTom или используйте автоматический выбор.
+После смены зеркала протестируйте скорость командой time sudo apt update - она должна выполняться значительно быстрее!
